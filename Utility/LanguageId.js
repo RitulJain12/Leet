@@ -23,19 +23,20 @@ const options = {
   method: 'POST',
   url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
   params: {
-    base64_encoded: 'true'
+    base64_encoded: 'false'
   },
   headers: {
     'x-rapidapi-key': 'e53db964b4msh8310cb74fd50146p1dfe08jsncdf9ec984de7',
     'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
     'Content-Type': 'application/json'
   },
-  data: {Submission}
+  data: {submissions: Submission}
 };
 
 async function fetchData() {
 	try {
 		const response = await axios.request(options);
+       // console.log(response.data);
 		 return response.data;
 	} catch (error) {
 		console.error(error);
@@ -51,7 +52,7 @@ const options = {
   url: 'https://judge0-ce.p.rapidapi.com/submissions/batch',
   params: {
     tokens: Resulttoken.join(","),
-    base64_encoded: 'true',
+    base64_encoded: 'false',
     fields: '*'
   },
   headers: {
@@ -71,8 +72,9 @@ async function fetchData() {
 
  while(true){
     const Result =await fetchData();
-    const IsPresent=Result.Submission.every((res)=> res.status_id>2);
-   if(IsPresent) return Result.Submission;
+    const IsPresent=Result.submissions.every((res)=> res.status_id>2);
+   if(IsPresent) return Result.submissions;
      await stop();
+    // console.log(Result.submissions);
  }
 }

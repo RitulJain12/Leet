@@ -7,21 +7,26 @@ try{
   for(const { language, Fullcode} of ReffSolution){
     
     const languageid=getLanguageId(language);
-    
+   
      const Submission=visibleTestCases.map((testcases)=>({
             source_code:Fullcode,
             language_id: languageid,
             stdin: testcases.input,
             expected_output: testcases.output
      }));
+  
+
     const Submitresult= await SubmitBatch(Submission);
-     const Resulttoken=Submitresult.map((value)=> value.token);
-         const TestResult=  await SubmitToken(Resulttoken);
-         for(const test of TestResult){
-            if(test.status_id!=3) return res.status(400).send("Error");
-         }
+     //console.log(Submitresult);
+    const Resulttoken = Submitresult.map((val) => val.token);
+  // console.log(Resulttoken);
+      const TestResult=  await SubmitToken(Resulttoken);
+          for(const test of TestResult){
+          if(test.status_id!=3){  console.log(test);return res.status(400).send("Error");}
+          }
 
   }
+ 
 
   await ProblemModel.create({
     ...req.body,

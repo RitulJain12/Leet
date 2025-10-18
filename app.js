@@ -4,5 +4,7 @@ const app=express();
 app.use(express.json());
 app.use(cookieParser());
 const Router=require('./Routes/userAuth');
+const ProblemRouter=require('./Routes/ProblemRoutes');
 app.use('/user',Router);
+app.use('/admin',ProblemRouter);
 module.exports=app;
