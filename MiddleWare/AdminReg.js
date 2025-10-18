@@ -1,6 +1,6 @@
  const jwt=require('jsonwebtoken');
  require('dotenv').config();
- const {Set,find}=require('../Blacklisted/blockedjwt');
+ const {find}=require('../Blacklisted/blockedjwt');
 module.exports.adminAuth=async(req,res,next)=>{
 try{
    const {token}=req.cookies;

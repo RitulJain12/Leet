@@ -10,6 +10,12 @@ const ProblemSchema = new Schema({
         Boilercode: { type: String, required: true }
      }
     ],
+    ReffSolution:[
+        {
+           language: { type: String, required: true },
+           Fullcode: { type: String, required: true }
+        }
+       ],
     complexity: {
         time: { type: String },
         space: { type: String }

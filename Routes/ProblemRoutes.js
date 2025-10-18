@@ -1,6 +1,8 @@
 const express=require('express');
 const ProblemRouter=express.Router();
-ProblemRouter.post('/create',problemCreate);
+const {adminAuth}=require('../MiddleWare/AdminReg');
+const {problemCreate}=require('../Controlers/ProblemControler');
+ProblemRouter.post('/create',adminAuth,problemCreate);
 ProblemRouter.patch('/:id', problemUpdate);
  ProblemRouter.delete('/:id',problemDelete);
    /*Below Apis Can be Hit By User Also*/
