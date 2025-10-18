@@ -1,5 +1,5 @@
-const {getLanguageId,SubmitBatch}=require('../Utility/LanguageId');
-
+const {getLanguageId,SubmitBatch,SubmitToken}=require('../Utility/LanguageId');
+const ProblemModel=require('../Models/Problem');
 module.exports.problemCreate= async(req,res)=>{
 const {title, description,  BoilerPlate, ReffSolution,complexity,  visibleTestCases, invisibleTestCases}=req.body;
 try{
@@ -8,19 +8,33 @@ try{
     
     const languageid=getLanguageId(language);
     
-     const Submission=visibleTestCases.map((input,output)=>({
+     const Submission=visibleTestCases.map((testcases)=>({
             source_code:Fullcode,
             language_id: languageid,
-            stdin: input,
-            expected_output: output
+            stdin: testcases.input,
+            expected_output: testcases.output
      }));
     const Submitresult= await SubmitBatch(Submission);
-     
+     const Resulttoken=Submitresult.map((value)=> value.token);
+         const TestResult=  await SubmitToken(Resulttoken);
+         for(const test of TestResult){
+            if(test.status_id!=3) return res.status(400).send("Error");
+         }
+
   }
 
+  await ProblemModel.create({
+    ...req.body,
+    author: req.User._id
+  })
+
+ res.status(201).json({
+    message:"Saved",
+ })
 }
 catch(err){
     console.log(err.message);
+    res.send("Error:"+err.message);
 }
 
 
