@@ -1,13 +1,14 @@
 const express=require('express');
 const ProblemRouter=express.Router();
 const {adminAuth}=require('../MiddleWare/AdminReg');
-const {problemCreate}=require('../Controlers/ProblemControler');
+const {UserPro}=require('../MiddleWare/userMiddleware')
+const {problemCreate,problemUpdate,problemDelete,problemFetch,getAllProblem,problemSolved}=require('../Controlers/ProblemControler');
 ProblemRouter.post('/create',adminAuth,problemCreate);
-// ProblemRouter.patch('/:id', problemUpdate);
-//  ProblemRouter.delete('/:id',problemDelete);
+ ProblemRouter.put('/update:id',adminAuth, problemUpdate);
+  ProblemRouter.delete('/delete:id',adminAuth,problemDelete);
 //    /*Below Apis Can be Hit By User Also*/
-//  ProblemRouter.get('/:id',problemFetch);
-//  ProblemRouter.get('/',getAllProblem);
-// ProblemRouter.get('/user',problemSolved);
+  ProblemRouter.get('/getProblembyID:id',UserPro,problemFetch);
+ ProblemRouter.get('/getAllProblem',UserPro,getAllProblem);
+  ProblemRouter.get('/getSolvedProblems',UserPro,problemSolved);
 
 module.exports=ProblemRouter;

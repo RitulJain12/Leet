@@ -26,7 +26,7 @@ const ProblemSchema = new Schema({
     },
     difficulty: { type: String, enum: ['Easy', 'Medium', 'Hard'], default: 'Medium' },
     tags: { type: [String], index: true, default: [] }, 
-    author: { type: Schema.Types.ObjectId, ref: 'user' },
+    author: { type: Schema.Types.ObjectId, ref: 'User' },
     createdAt: { type: Date, default: Date.now },
     visibleTestCases:[
         {input:{
