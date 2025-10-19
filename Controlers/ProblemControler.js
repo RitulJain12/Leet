@@ -110,7 +110,7 @@ module.exports.problemUpdate= async(req,res)=>{
       //console.log(id);
       try{
           if(!id) return res.status(400).json({message:"Invalid Request"});
-          const IsPresent= await ProblemModel.findById(id);
+          const IsPresent= await ProblemModel.findById(id).select('-author -__v -invisibleTestCases');
           if(!IsPresent) return res.status(404).json({message:"Problem Not Found"});
           res.status(201).json({message:"Success",id:IsPresent});
       }
@@ -125,7 +125,7 @@ module.exports.problemUpdate= async(req,res)=>{
           ///console.log(req.query);
           // Difficult and coustamize krna he
          const {page}=req.query;
-          const Probs= await ProblemModel.find().skip((page-1)*5).limit(5);
+          const Probs= (await ProblemModel.find().select("-author -__v -invisibleTestCases").skip((page-1)*5).limit(5));
           if(Probs.length==0)   return res.status(404).json({message:"UnSuccessas"});
           res.status(201).json({message:"Successas", Probs});
       }
@@ -135,18 +135,18 @@ module.exports.problemUpdate= async(req,res)=>{
     }
     
     };
-    module.exports.problemSolved= async(req,res)=>{
-      const {id}=req.params;
-      //console.log(id);
-      try{
-          if(!id) return res.status(400).json({message:"Invalid Request"});
-          const IsPresent= await ProblemModel.findByIdAndDelete(id);
-          if(!IsPresent) return res.status(404).json({message:"Problem Not Found"});
-          res.status(201).json({message:"Success"});
-      }
-    catch(err){
-        console.log(err.message);
-        res.send("Error:"+err.message);
-    }
+    // module.exports.problemSolved= async(req,res)=>{
+    //   const {id}=req.params;
+    //   //console.log(id);
+    //   try{
+    //       if(!id) return res.status(400).json({message:"Invalid Request"});
+    //       const IsPresent= await ProblemModel.findByIdAndDelete(id);
+    //       if(!IsPresent) return res.status(404).json({message:"Problem Not Found"});
+    //       res.status(201).json({message:"Success"});
+    //   }
+    // catch(err){
+    //     console.log(err.message);
+    //     res.send("Error:"+err.message);
+    // }
     
-    };
+    // };
