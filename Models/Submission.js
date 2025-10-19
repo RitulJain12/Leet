@@ -20,11 +20,11 @@ const SubmissionSchema = new mongoose.Schema(
     language: {
       type: String,
       required: true,
-      enum: ["cpp", "java", "python", "javascript", "c","Kotlin","c#"], 
+      enum: ["c++", "java", "python", "javascript", "c","Kotlin","c#"], 
     },
     status: {
       type: String,
-      enum: ["Accepted", "Wrong Answer", "TLE", "Runtime Error", "Compilation Error", "Pending"],
+      enum: ["Accepted", "wrong", "TLE", "Runtime Error", "Compilation Error", "Pending","error"],
       default: "Pending",
     },
     time: {

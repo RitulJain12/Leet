@@ -11,7 +11,7 @@ const {code,language}=req.body;
 if(!userId||!code||!problemId||!language) return res.status(400).send("Some Field Missing");
    const Problem=await ProblemModel.findById(problemId);
    if(!Problem) return  res.status(404).send("Problem Not FOund");
-   const Submit=Submission.create({
+   const Submit= await Submission.create({
          userId,
          problemId,
          code,
@@ -36,13 +36,13 @@ if(!userId||!code||!problemId||!language) return res.status(400).send("Some Fiel
   const Resulttoken = Submitresult.map((val) => val.token);
 // console.log(Resulttoken);
 const TestResult=  await SubmitToken(Resulttoken);
-const testCasesPassed=0;
-const runtime=0,memory=0,status="Accepted",errorMessage=null;
+let testCasesPassed=0;
+let runtime=0,memory=0,status="Accepted",errorMessage=null;
 for(const test of TestResult){
-
-    if(test.status._id==3){
+      console.log(test);
+    if(test.status_id==3){
     testCasesPassed++;
-    runtime+=parseFloat(time);
+    runtime+=parseFloat(test.time);
     memory=Math.max(memory,test.memory); 
 }
 else{
@@ -52,10 +52,11 @@ else{
 }
 
 } 
-(await Submit).errorMessage=errorMessage;
-(await Submit).status=status;
-(await Submit).testCasesPassed=testCasesPassed;
-  await Submit.save();
+console.log("Saho he");
+ Submit.errorMessage=errorMessage;
+ Submit.status=status;
+ Submit.testCasesPassed=testCasesPassed;
+   await Submit.save();
 res.status(201).send(Submit);
 
 }

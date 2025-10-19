@@ -5,6 +5,8 @@ app.use(express.json());
 app.use(cookieParser());
 const Router=require('./Routes/userAuth');
 const ProblemRouter=require('./Routes/ProblemRoutes');
+const SubRouter=require('./Routes/Submit');
 app.use('/user',Router);
 app.use('/admin',ProblemRouter);
+app.use('/submission',SubRouter);
 module.exports=app;
