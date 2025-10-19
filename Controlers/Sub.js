@@ -1,4 +1,5 @@
 const ProblemModel=require('../Models/Problem');
+const UserModel=require('../Models/Usermodel');
 const Submission=require('../Models/Submission');
 const {getLanguageId,SubmitBatch,SubmitToken}=require('../Utility/LanguageId');
 module.exports.SubmitProblem=async(req,res)=>{
@@ -22,7 +23,7 @@ if(!userId||!code||!problemId||!language) return res.status(400).send("Some Fiel
 
    });
    const languageid=getLanguageId(language);
-   const submissions=Problem.invisibleTestCases.map((testcase)=>({
+   const submissions=Problem.visibleTestCases.map((testcase)=>({
 
     source_code:code,
     language_id: languageid,
@@ -57,6 +58,15 @@ console.log("Saho he");
  Submit.status=status;
  Submit.testCasesPassed=testCasesPassed;
    await Submit.save();
+
+const User=req.user;
+
+if(!User.ProblemSolved.includes(problemId)) User.ProblemSolved.push(problemId);
+
+await User.save();
+console.log(User.ProblemSolved[0]
+);
+
 res.status(201).send(Submit);
 
 }
