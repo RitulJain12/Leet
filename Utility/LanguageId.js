@@ -26,7 +26,7 @@ const options = {
     base64_encoded: 'false'
   },
   headers: {
-    'x-rapidapi-key': 'e53db964b4msh8310cb74fd50146p1dfe08jsncdf9ec984de7',
+    'x-rapidapi-key': '859388a16bmsh196c85417941087p1cff80jsn87c2dad1cf8f',
     'x-rapidapi-host': 'judge0-ce.p.rapidapi.com',
     'Content-Type': 'application/json'
   },

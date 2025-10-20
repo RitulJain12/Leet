@@ -76,3 +76,55 @@ catch(err){
 }
 
 }
+module.exports.RunProblem=async(req,res)=>{
+
+  try{
+   const userId=req.user._id;
+   const  problemId=req.params.id;
+  const {code,language}=req.body;
+  
+  if(!userId||!code||!problemId||!language) return res.status(400).send("Some Field Missing");
+     const Problem=await ProblemModel.findById(problemId);
+     if(!Problem) return  res.status(404).send("Problem Not FOund");
+     const Submit= await Submission.create({
+           userId,
+           problemId,
+           code,
+           language,
+           testCasesPassed:0,
+           status:'Pending',
+           totalTestCases:  Problem.invisibleTestCases.length+Problem.visibleTestCases.length
+  
+     });
+     const Testcases=[];
+     const languageid=getLanguageId(language);
+     const submissions=Problem.visibleTestCases.map((testcase)=>({
+      source_code:code,
+      language_id: languageid,
+      stdin: testcase.input,
+      expected_output: testcase.output
+     }))
+  
+     
+     const Submitresult= await SubmitBatch(submissions);
+    const Resulttoken = Submitresult.map((val) => val.token);
+  const TestResult=  await SubmitToken(Resulttoken);
+     for( const test of TestResult ){
+      const obj={};
+      obj.input=test.stdin;
+      obj.expected_output=test.expected_output;
+      obj.stdout=test.stdout;
+      obj.result=test.status.description
+      obj.resultId=test.status.id;
+      Testcases.push(obj);
+     }
+    
+  res.status(201).send(Testcases);
+  
+  }
+  catch(err){
+      console.log(err);
+      res.status(500).send(err);
+  }
+  
+  }

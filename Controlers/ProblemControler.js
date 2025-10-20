@@ -135,18 +135,15 @@ module.exports.problemUpdate= async(req,res)=>{
     }
     
     };
-    // module.exports.problemSolved= async(req,res)=>{
-    //   const {id}=req.params;
-    //   //console.log(id);
-    //   try{
-    //       if(!id) return res.status(400).json({message:"Invalid Request"});
-    //       const IsPresent= await ProblemModel.findByIdAndDelete(id);
-    //       if(!IsPresent) return res.status(404).json({message:"Problem Not Found"});
-    //       res.status(201).json({message:"Success"});
-    //   }
-    // catch(err){
-    //     console.log(err.message);
-    //     res.send("Error:"+err.message);
-    // }
+    module.exports.problemSolved= async(req,res)=>{
+      try{
+        const User=req.user;
+    const as=  await User.populate('ProblemSolved')
+      return res.status(200).json({Probs:as});
+      }
+    catch(err){
+        console.log(err.message);
+        res.send("Error:"+err.message);
+    }
     
-    // };
+    };

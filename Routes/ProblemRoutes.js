@@ -9,6 +9,6 @@ ProblemRouter.post('/create',adminAuth,problemCreate);
 //    /*Below Apis Can be Hit By User Also*/
   ProblemRouter.get('/getProblembyID/:id',UserPro,problemFetch);
   ProblemRouter.get('/getAllProblem',UserPro,getAllProblem);
-  // ProblemRouter.get('/getSolvedProblems',UserPro,problemSolved);
+  ProblemRouter.get('/getSolvedProblems',UserPro,problemSolved);
 
 module.exports=ProblemRouter;
