@@ -66,6 +66,17 @@ module.exports.Regadmin = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+module.exports.DeletePro= async (req, res) => {
+  try {
+     const id=req.user._id;
+     await User.findByIdAndDelete(id);
+     res.status(200).json({message:"deleted Succesfully"});
+  
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 
 
 

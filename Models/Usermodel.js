@@ -60,6 +60,8 @@ UserSchema.methods.Compare=async(pass,password)=>{
      const Istrue=await bcrypt.compare(pass,password);
      return Istrue;
 }
-
+UserSchema.post('findOneAndDelete',async(deletedPro)=>{
+   if(deletedPro) await mongoose.model('Submission').deleteMany({userId:deletedPro._id});
+});
 const User=mongoose.model("User",UserSchema);
 module.exports=User;
